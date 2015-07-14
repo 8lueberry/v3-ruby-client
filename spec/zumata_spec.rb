@@ -53,12 +53,19 @@ describe "ZumataV3::HotelClient endpoints" do
 
   describe "search_by_destination_id" do
 
-    it 'returns a response with search completed status if the query is valid', :vcr => { :cassette_name => "search_by_destination_id_done", :record => :new_episodes } do
+    it 'returns a successful response if the query is valid', :vcr => { :cassette_name => "search_by_destination_id_done", :record => :new_episodes } do
       # note - when recording the cassette this requires a cached search w/ results to exist
       destination_id = "f75a8cff-c26e-4603-7b45-1b0f8a5aa100" # Singapore
-      results = @client.search_by_destination_id destination_id, {checkin: vcr_recorded_check_in_date, checkout: vcr_recorded_check_out_date}
+      results = @client.search_by_destination_id destination_id, {check_in_date: vcr_recorded_check_in_date, check_out_date: vcr_recorded_check_out_date}
     	data = JSON.parse(results.body)
       expect(data).to_not be(nil)
+    end
+
+    it 'raises an error if invalid inputs are provided', :vcr => { :cassette_name => "search_by_destination_id_fail", :record => :new_episodes } do
+      destination_id = "invalid" # Singapore
+      expect{
+        @client.search_by_destination_id destination_id, {check_in_date: vcr_recorded_check_in_date, check_out_date: vcr_recorded_check_out_date}
+      }.to raise_error(ZumataV3::BadRequestError)
     end
 
   end

@@ -30,7 +30,7 @@ module ZumataV3
       q[:check_out_date] = opts[:check_out_date]
 
       res = self.class.get("#{@api_url}/search", query: q, headers: {"X-Api-Key" => @api_key}).response
-
+      ZumataV3::ErrorClassifier.handle(res.code.to_i, res.body) unless [200,201].include?(res.code.to_i)
       ZumataV3::GenericResponse.new(context: q, code: res.code.to_i, body: res.body)
     end
 
