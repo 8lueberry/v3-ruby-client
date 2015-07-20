@@ -70,4 +70,62 @@ describe "ZumataV3::HotelClient endpoints" do
 
   end
 
+  describe "pre_book" do
+
+    def sample_search destination_id="f75a8cff-c26e-4603-7b45-1b0f8a5aa100"
+      return {
+        :destination_id => destination_id,
+        :check_in_date => "2015-08-04",
+        :check_out_date => "2015-08-05",
+        :room_count => 1,
+        :adult_count => 2
+      }
+    end
+
+    def sample_package
+      return {
+        :hotel_id => "240a3ae3-638d-4361-7b88-9bb830df872e",
+        :room_details => {
+          :description => "Executive Club",
+          :food => 0,
+          :room_type => "Executive Club",
+          :room_view => "",
+          :beds => {
+            :double => 1
+          }
+        },
+        :booking_key => "018adc8c",
+        :room_rate => 62,
+        :room_rate_currency => "USD",
+        :chargeable_rate => 77,
+        :chargeable_rate_currency => "USD"
+      }
+    end
+
+    def sample_config
+      return {
+        :pricing => {
+          :fixed_tolerance => 1
+        },
+        :matching => {
+          :flexible_room_view => true,
+          :flexible_beds => true
+        }
+      }
+    end
+
+    it 'pre-books a package returned from the search request' , :vcr => { :cassette_name => "pre_book_done", :record => :new_episodes } do
+      results = @client.pre_book sample_search, sample_package, sample_config
+    	data = JSON.parse(results.body)
+      expect(data).to_not be(nil)
+    end
+
+    it 'raises an error if invalid inputs are provided', :vcr => { :cassette_name => "pre_book_failed", :record => :new_episodes } do
+      expect{
+        @client.pre_book sample_search("invalid_destination_id"), sample_package, sample_config
+      }.to raise_error(ZumataV3::BadRequestError)
+    end
+
+  end
+
 end

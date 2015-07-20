@@ -34,5 +34,17 @@ module ZumataV3
       ZumataV3::GenericResponse.new(context: q, code: res.code.to_i, body: res.body)
     end
 
+    # POST /pre_book
+    def pre_book search, package, config, opts={}
+
+      req = { search: search,
+            package: package,
+            config: config }
+
+      res = self.class.post("#{@api_url}/pre_book", body: req.to_json, headers: {"X-Api-Key" => @api_key}).response
+      ZumataV3::ErrorClassifier.handle(res.code.to_i, res.body) unless [200,201].include?(res.code.to_i)
+      ZumataV3::GenericResponse.new(context: req, code: res.code.to_i, body: res.body)
+    end
+
   end
 end
