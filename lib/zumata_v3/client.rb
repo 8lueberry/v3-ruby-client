@@ -46,5 +46,12 @@ module ZumataV3
       ZumataV3::GenericResponse.new(context: req, code: res.code.to_i, body: res.body)
     end
 
+    # GET /pre_book
+    def get_pre_book_by_id pre_book_id, opts={}
+      res = self.class.get("#{@api_url}/pre_book/#{pre_book_id}", headers: {"X-Api-Key" => @api_key}).response
+      ZumataV3::ErrorClassifier.handle(res.code.to_i, res.body) unless [200,201].include?(res.code.to_i)
+      ZumataV3::GenericResponse.new(context: {pre_book_id: pre_book_id}, code: res.code.to_i, body: res.body)
+    end
+
   end
 end

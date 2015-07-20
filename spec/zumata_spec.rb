@@ -120,10 +120,28 @@ describe "ZumataV3::HotelClient endpoints" do
       expect(data).to_not be(nil)
     end
 
-    it 'raises an error if invalid inputs are provided', :vcr => { :cassette_name => "pre_book_failed", :record => :new_episodes } do
+    it 'raises an error if invalid inputs are provided', :vcr => { :cassette_name => "pre_book_fail", :record => :new_episodes } do
       expect{
         @client.pre_book sample_search("invalid_destination_id"), sample_package, sample_config
       }.to raise_error(ZumataV3::BadRequestError)
+    end
+
+  end
+
+  describe "get_pre_book_by_id" do
+
+    it 'returns a successful response if the query is valid', :vcr => { :cassette_name => "get_pre_book_by_id_done", :record => :new_episodes } do
+      pre_book_id = "8f5b764c-1704-4d06-6797-01f184c390af"
+      results = @client.get_pre_book_by_id pre_book_id
+    	data = JSON.parse(results.body)
+      expect(data).to_not be(nil)
+    end
+
+    it 'raises an error if invalid inputs are provided', :vcr => { :cassette_name => "get_pre_book_by_id_fail", :record => :new_episodes } do
+      pre_book_id = "invalid"
+      expect{
+        results = @client.get_pre_book_by_id pre_book_id
+      }.to raise_error(ZumataV3::NotFoundError)
     end
 
   end
