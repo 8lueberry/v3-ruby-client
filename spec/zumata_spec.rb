@@ -146,4 +146,61 @@ describe "ZumataV3::HotelClient endpoints" do
 
   end
 
+  describe "book" do
+
+    def sample_guest
+      return {
+        :salutation => "Mr",
+        :first_name => "Phantom",
+        :last_name => "Assassin",
+        :email => "jonathanbgomez@gmail.com",
+        :street => "1 Random St",
+        :city => "Melbourne",
+        :state => "VIC",
+        :postal_code => "3000",
+        :country => "Australia",
+        :room_remarks => "Room with a view, please.",
+        :nationality => "Australia"
+      }
+    end
+
+    def sample_payment usd_amount
+      amount = ('%.2f' % usd_amount.to_f).to_f
+      return {
+        :type => "visa",
+        :contact => {
+          :first_name => "Phantom",
+          :last_name => "Assassin",
+          :email => "jonathanbgomez@gmail.com",
+          :street => "1 Random St",
+          :city => "Melbourne",
+          :state => "VIC",
+          :postal_code => "3000",
+          :country => "Australia"
+        },
+        :details => {
+          "card" => "1234567890",
+          "cvv" => "123",
+          "expiration_month" => "12",
+          "expiration_year" => "2018",
+          "amount" => amount,
+          "currency" => "USD"
+        },
+        :conversion => {
+          :converted_amount => amount,
+          :converted_currency => 'USD',
+          :exchange_rate => 1.00
+        }
+      }
+    end
+
+    it 'books a package after a pre-booking request has been made and return client reference', :vcr => { :cassette_name => "book_done", :record => :new_episodes } do
+      pre_book_id = "8f5b764c-1704-4d06-6797-01f184c390af"
+      results = @client.book sample_guest, sample_payment(12345), "", pre_book_id
+    	data = JSON.parse(results.body)
+      expect(data).to_not be(nil)
+      expect(data["reference"]).not_to eq(nil)
+    end
+
+  end
 end

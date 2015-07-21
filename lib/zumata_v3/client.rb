@@ -53,5 +53,17 @@ module ZumataV3
       ZumataV3::GenericResponse.new(context: {pre_book_id: pre_book_id}, code: res.code.to_i, body: res.body)
     end
 
+    # POST /book
+    def book guest, payment, affiliate_key, pre_book_id, opts={}
+
+      req = { guest: guest,
+            payment: payment,
+            affiliate_key: affiliate_key,
+            pre_book_id: pre_book_id }
+
+      res = self.class.post("#{@api_url}/book", body: req.to_json, headers: {"X-Api-Key" => @api_key}).response
+      ZumataV3::ErrorClassifier.handle(res.code.to_i, res.body) unless [200,201].include?(res.code.to_i)
+      ZumataV3::GenericResponse.new(context: req, code: res.code.to_i, body: res.body)
+    end
   end
 end
