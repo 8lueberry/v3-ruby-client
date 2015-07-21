@@ -65,5 +65,13 @@ module ZumataV3
       ZumataV3::ErrorClassifier.handle(res.code.to_i, res.body) unless [200,201].include?(res.code.to_i)
       ZumataV3::GenericResponse.new(context: req, code: res.code.to_i, body: res.body)
     end
+
+    # GET /book/status
+    def get_book_by_reference_id reference_id
+      res = self.class.get("#{@api_url}/book/status/#{reference_id}", headers: {"X-Api-Key" => @api_key}).response
+      ZumataV3::ErrorClassifier.handle(res.code.to_i, res.body) unless [200,201].include?(res.code.to_i)
+      ZumataV3::GenericResponse.new(context: {reference_id: reference_id}, code: res.code.to_i, body: res.body)
+    end
+
   end
 end
