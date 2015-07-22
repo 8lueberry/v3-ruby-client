@@ -54,12 +54,15 @@ module ZumataV3
     end
 
     # POST /book
-    def book guest, payment, affiliate_key, pre_book_id, opts={}
+    def book_by_credit guest, pre_book_id, opts={}
 
       req = { guest: guest,
-            payment: payment,
-            affiliate_key: affiliate_key,
-            pre_book_id: pre_book_id }
+              payment: {
+                :type => "credit"
+              },
+              pre_book_id: pre_book_id }
+
+      req[:affiliate_key] = opts[:affiliate_key] if opts[:affiliate_key]
 
       res = self.class.post("#{@api_url}/book", body: req.to_json, headers: {"X-Api-Key" => @api_key}).response
       ZumataV3::ErrorClassifier.handle(res.code.to_i, res.body) unless [200,201].include?(res.code.to_i)
