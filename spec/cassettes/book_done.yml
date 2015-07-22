@@ -1,0 +1,32 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://localhost:3001/book
+    body:
+      encoding: UTF-8
+      string: '{"guest":{"salutation":"Mr.","first_name":"Charlie","last_name":"Smith","email":"charlie.smith@zumata.com","city":"Montreal","state":"Quebec","street":"123
+        Outtamy way","postal_code":"H3H0H0","country":"Canada","room_remarks":"3 carpets
+        please","nationality":"Canadian","contact_no":"+1 514 555-1234"},"payment":{"type":"credit"},"pre_book_id":"de9c87cd-cf85-43db-7a3a-1ebb9c34a16f","affiliate_key":""}'
+    headers:
+      X-Api-Key:
+      - XXXX1234
+  response:
+    status:
+      code: 202
+      message: Accepted
+    headers:
+      Content-Type:
+      - application/json
+      Location:
+      - /book/status/f0c21c76-c720-4150-4482-e571d909dd36
+      Date:
+      - Wed, 22 Jul 2015 02:30:20 GMT
+      Content-Length:
+      - '52'
+    body:
+      encoding: UTF-8
+      string: '{"reference":"f0c21c76-c720-4150-4482-e571d909dd36"}'
+    http_version: 
+  recorded_at: Wed, 22 Jul 2015 02:30:20 GMT
+recorded_with: VCR 2.9.3

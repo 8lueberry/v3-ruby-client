@@ -1,0 +1,29 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3001/search?adult_count=2&check_in_date=2015-09-20&check_out_date=2015-09-21&currency=USD&destination_id=invalid&room_count=1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      X-Api-Key:
+      - XXXX1234
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 22 Jul 2015 02:30:20 GMT
+      Content-Length:
+      - '121'
+    body:
+      encoding: UTF-8
+      string: '{"id":"bad_request","message":"Validation error: [destination_id] Required
+        length is 36;","url":"http://docs.zumata.com"}'
+    http_version: 
+  recorded_at: Wed, 22 Jul 2015 02:30:20 GMT
+recorded_with: VCR 2.9.3
