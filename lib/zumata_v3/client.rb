@@ -76,5 +76,17 @@ module ZumataV3
       ZumataV3::GenericResponse.new(context: {reference_id: reference_id}, code: res.code.to_i, body: res.body)
     end
 
+    # POST /cancel
+    def cancel_by_reference_id reference_id
+
+      req = {
+        booking_reference: reference_id
+      }
+
+      res = self.class.post("#{@api_url}/cancel", body: req.to_json, headers: {"X-Api-Key" => @api_key}).response
+      ZumataV3::ErrorClassifier.handle(res.code.to_i, res.body) unless [200,201].include?(res.code.to_i)
+      ZumataV3::GenericResponse.new(context: {reference_id: reference_id}, code: res.code.to_i, body: res.body)
+    end
+
   end
 end

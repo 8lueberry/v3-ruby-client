@@ -194,4 +194,22 @@ describe "ZumataV3::HotelClient endpoints" do
 
   end
 
+  describe "cancel_by_reference_id" do
+
+    it "returns a successful response if the reference id is valid", :vcr => { :cassette_name => "cancel_by_reference_id_done", :record => :new_episodes } do
+      reference_id = "299afbee-fd30-40c0-4da7-223e70435d19"
+      results = @client.cancel_by_reference_id reference_id
+      data = JSON.parse(results.body)
+      expect(data).to_not be(nil)
+    end
+
+    it "raise an error if reference id provided is invalid", :vcr => { :cassette_name => "cancel_by_reference_id_fail", :record => :new_episodes } do
+      reference_id = "invalid"
+      expect{
+        results = @client.cancel_by_reference_id reference_id
+      }.to raise_error(ZumataV3::NotFoundError)
+    end
+
+  end
+
 end
