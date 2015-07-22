@@ -88,18 +88,18 @@ describe "ZumataV3::HotelClient endpoints" do
       return {
         :hotel_id => "240a3ae3-638d-4361-7b88-9bb830df872e",
         :room_details => {
-          :description => "Executive Club",
+          :description => "Club",
           :food => 0,
-          :room_type => "Executive Club",
+          :room_type => "Club",
           :room_view => "",
           :beds => {
-            :double => 1
+            :single => 2
           }
         },
-        :booking_key => "018adc8c",
-        :room_rate => 62,
+        :booking_key => "c006f19a",
+        :room_rate => 57,
         :room_rate_currency => "USD",
-        :chargeable_rate => 77,
+        :chargeable_rate => 72,
         :chargeable_rate_currency => "USD"
       }
     end
@@ -136,7 +136,7 @@ describe "ZumataV3::HotelClient endpoints" do
   describe "get_pre_book_by_id" do
 
     it 'returns a successful response if the query is valid', :vcr => { :cassette_name => "get_pre_book_by_id_done", :record => :new_episodes } do
-      pre_book_id = "8f5b764c-1704-4d06-6797-01f184c390af"
+      pre_book_id = "de9c87cd-cf85-43db-7a3a-1ebb9c34a16f"
       results = @client.get_pre_book_by_id pre_book_id
     	data = JSON.parse(results.body)
       expect(data).to_not be(nil)
@@ -172,7 +172,7 @@ describe "ZumataV3::HotelClient endpoints" do
     end
 
     it 'books a package after a pre-booking request has been made (by credit) and return client reference', :vcr => { :cassette_name => "book_done", :record => :new_episodes } do
-      pre_book_id = "8f5b764c-1704-4d06-6797-01f184c390af"
+      pre_book_id = "de9c87cd-cf85-43db-7a3a-1ebb9c34a16f"
       results = @client.book_by_credit sample_guest, pre_book_id, {affiliate_key: ""}
     	data = JSON.parse(results.body)
       expect(data).to_not be(nil)
@@ -203,10 +203,17 @@ describe "ZumataV3::HotelClient endpoints" do
   describe "cancel_by_reference_id" do
 
     it "returns a successful response if the reference id is valid", :vcr => { :cassette_name => "cancel_by_reference_id_done", :record => :new_episodes } do
-      reference_id = "299afbee-fd30-40c0-4da7-223e70435d19"
+      reference_id = "97eb22cb-192a-4eee-4da9-50837397ede0"
       results = @client.cancel_by_reference_id reference_id
       data = JSON.parse(results.body)
       expect(data).to_not be(nil)
+    end
+
+    it "raise an error if reference id provided is already cancelled", :vcr => { :cassette_name => "cancel_by_reference_id_cancelled", :record => :new_episodes } do
+      reference_id = "97eb22cb-192a-4eee-4da9-50837397ede0"
+      expect{
+        results = @client.cancel_by_reference_id reference_id
+      }.to raise_error(ZumataV3::UnprocessableEntityError)
     end
 
     it "raise an error if reference id provided is invalid", :vcr => { :cassette_name => "cancel_by_reference_id_fail", :record => :new_episodes } do
