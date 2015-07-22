@@ -80,7 +80,7 @@ module ZumataV3
     def cancel_by_reference_id reference_id
 
       req = {
-        booking_reference: reference_id
+        reference: reference_id
       }
 
       res = self.class.post("#{@api_url}/cancel", body: req.to_json, headers: {"X-Api-Key" => @api_key}).response
