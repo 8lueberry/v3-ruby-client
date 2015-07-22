@@ -59,10 +59,12 @@ describe "ZumataV3::HotelClient endpoints" do
       results = @client.search_by_destination_id destination_id, {check_in_date: vcr_recorded_check_in_date, check_out_date: vcr_recorded_check_out_date}
     	data = JSON.parse(results.body)
       expect(data).to_not be(nil)
+      expect(data["search"]).to_not be(nil)
+      expect(data["results"]).to_not be(nil)
     end
 
     it 'raises an error if invalid inputs are provided', :vcr => { :cassette_name => "search_by_destination_id_fail", :record => :new_episodes } do
-      destination_id = "invalid" # Singapore
+      destination_id = "invalid"
       expect{
         @client.search_by_destination_id destination_id, {check_in_date: vcr_recorded_check_in_date, check_out_date: vcr_recorded_check_out_date}
       }.to raise_error(ZumataV3::BadRequestError)
@@ -114,10 +116,13 @@ describe "ZumataV3::HotelClient endpoints" do
       }
     end
 
-    it 'pre-books a package returned from the search request' , :vcr => { :cassette_name => "pre_book_done", :record => :new_episodes } do
+    it 'pre-books a package returned from the search request and return booking information' , :vcr => { :cassette_name => "pre_book_done", :record => :new_episodes } do
       results = @client.pre_book sample_search, sample_package, sample_config
     	data = JSON.parse(results.body)
       expect(data).to_not be(nil)
+      expect(data["pre_book_id"]).to_not be(nil)
+      expect(data["cancellation_policy"]["remarks"]).to_not be(nil)
+      expect(data["cancellation_policy"]["cancellation_policies"]).to_not be(nil)
     end
 
     it 'raises an error if invalid inputs are provided', :vcr => { :cassette_name => "pre_book_fail", :record => :new_episodes } do
@@ -135,9 +140,10 @@ describe "ZumataV3::HotelClient endpoints" do
       results = @client.get_pre_book_by_id pre_book_id
     	data = JSON.parse(results.body)
       expect(data).to_not be(nil)
+      expect(data["pre_book_id"]).to_not be(nil)
     end
 
-    it 'raises an error if invalid inputs are provided', :vcr => { :cassette_name => "get_pre_book_by_id_fail", :record => :new_episodes } do
+    it 'raises an error if pre-book id provided is invalid', :vcr => { :cassette_name => "get_pre_book_by_id_fail", :record => :new_episodes } do
       pre_book_id = "invalid"
       expect{
         results = @client.get_pre_book_by_id pre_book_id
@@ -185,7 +191,7 @@ describe "ZumataV3::HotelClient endpoints" do
       expect(data["client_reference"]).not_to eq(nil)
     end
 
-    it 'raises an error if invalid reference id are provided', :vcr => { :cassette_name => "get_book_by_reference_id_fail", :record => :new_episodes } do
+    it 'raises an error if reference id provided is invalid', :vcr => { :cassette_name => "get_book_by_reference_id_fail", :record => :new_episodes } do
       reference_id = "invalid"
       expect{
         results = @client.get_book_by_reference_id reference_id
