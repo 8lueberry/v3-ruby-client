@@ -104,11 +104,11 @@ puts reference
 
 
 #####################
-# Get booking information by reference id
+# Get booking information by reference
 #####################
 
 status = "IP"
-while status != "CF"
+while status == "IP"
   result = @client.get_book reference
   output = JSON.parse(result.body)
   status = output["status"]
@@ -116,9 +116,13 @@ while status != "CF"
   sleep 1
 end
 
+if output["status"] != "CF"
+  puts "booking not confirmed, exiting..."
+  exit
+end
 
 #####################
-# Cancel prebook by reference id
+# Cancel booking by reference
 #####################
 
 result = @client.cancel reference
