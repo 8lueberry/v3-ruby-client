@@ -5,24 +5,24 @@ http_interactions:
     uri: http://localhost:3001/cancel
     body:
       encoding: UTF-8
-      string: '{"reference":"invalid"}'
+      string: '{"reference":"cc7aa5e9-4cf4-436d-619d-29b7fd992c27"}'
     headers:
       X-Api-Key:
       - XXXX1234
   response:
     status:
-      code: 404
-      message: Not Found
+      code: 422
+      message: status code 422
     headers:
       Content-Type:
       - application/json
       Date:
-      - Wed, 22 Jul 2015 02:30:20 GMT
+      - Fri, 24 Jul 2015 06:59:21 GMT
       Content-Length:
-      - '71'
+      - '104'
     body:
       encoding: UTF-8
-      string: '{"id":"not_found","message":"Not Found","url":"http://docs.zumata.com"}'
+      string: '{"id":"unprocessable_entity","message":"Invalid pre-condition to cancel","url":"http://docs.zumata.com"}'
     http_version: 
-  recorded_at: Wed, 22 Jul 2015 02:30:20 GMT
+  recorded_at: Fri, 24 Jul 2015 06:59:21 GMT
 recorded_with: VCR 2.9.3

@@ -1,0 +1,28 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3001/pre_book/2b076a9d-9051-4ab5-57f7-59aaf9d8ce2d
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      X-Api-Key:
+      - XXXX1234
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 24 Jul 2015 06:59:21 GMT
+      Content-Length:
+      - '802'
+    body:
+      encoding: UTF-8
+      string: '{"pre_book_id":"2b076a9d-9051-4ab5-57f7-59aaf9d8ce2d","cancellation_policy":{"remarks":"","cancellation_policies":[{"original_rate":0,"penalty_percentage":100,"date_from":"2015-07-23T00:00:00Z","date_to":"2304-07-24T14:40:16Z"}]},"request":{"search":{"destination_id":"f75a8cff-c26e-4603-7b45-1b0f8a5aa100","check_in_date":"2015-07-25","check_out_date":"2015-07-26","room_count":1,"adult_count":2},"package":{"hotel_id":"00d7ed72-2325-4225-5e95-02d340e48fe5","room_details":{"description":"Superior","food":1,"room_type":"Superior","room_view":"","beds":{"single":2}},"booking_key":"39c90b48","room_rate":144.92,"room_rate_currency":"USD","chargeable_rate":159.92,"chargeable_rate_currency":"USD"},"config":{"pricing":{"fixed_tolerance":1},"matching":{"flexible_room_view":true,"flexible_beds":true}}}}'
+    http_version: 
+  recorded_at: Fri, 24 Jul 2015 06:59:21 GMT
+recorded_with: VCR 2.9.3
