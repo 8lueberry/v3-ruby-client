@@ -61,7 +61,7 @@ while status == "in-progress"
 
   output = JSON.parse(result.body)
   status = "complete" if output["results"].first != nil || output["status"] == "complete"
-  sleep 1
+  sleep 10 unless status != "in-progress"
 end
 
 if output["results"].first == nil
@@ -113,7 +113,7 @@ while status == "IP"
   output = JSON.parse(result.body)
   status = output["status"]
   puts output["status"]
-  sleep 1
+  sleep 10 if status == "IP"
 end
 
 if output["status"] != "CF"
