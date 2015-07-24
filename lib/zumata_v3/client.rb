@@ -35,7 +35,7 @@ module ZumataV3
     end
 
     # POST /pre_book
-    def pre_book search, package, config, opts={}
+    def prebook search, package, config, opts={}
 
       req = { search: search,
             package: package,
@@ -47,7 +47,7 @@ module ZumataV3
     end
 
     # GET /pre_book
-    def get_pre_book_by_id pre_book_id, opts={}
+    def get_prebook pre_book_id, opts={}
       res = self.class.get("#{@api_url}/pre_book/#{pre_book_id}", headers: {"X-Api-Key" => @api_key}).response
       ZumataV3::ErrorClassifier.handle(res.code.to_i, res.body) unless [200,201].include?(res.code.to_i)
       ZumataV3::GenericResponse.new(context: {pre_book_id: pre_book_id}, code: res.code.to_i, body: res.body)
@@ -70,22 +70,22 @@ module ZumataV3
     end
 
     # GET /book/status
-    def get_book_by_reference_id reference_id
-      res = self.class.get("#{@api_url}/book/status/#{reference_id}", headers: {"X-Api-Key" => @api_key}).response
+    def get_book reference
+      res = self.class.get("#{@api_url}/book/status/#{reference}", headers: {"X-Api-Key" => @api_key}).response
       ZumataV3::ErrorClassifier.handle(res.code.to_i, res.body) unless [200,201].include?(res.code.to_i)
-      ZumataV3::GenericResponse.new(context: {reference_id: reference_id}, code: res.code.to_i, body: res.body)
+      ZumataV3::GenericResponse.new(context: {reference: reference}, code: res.code.to_i, body: res.body)
     end
 
     # POST /cancel
-    def cancel_by_reference_id reference_id
+    def cancel reference
 
       req = {
-        reference: reference_id
+        reference: reference
       }
 
       res = self.class.post("#{@api_url}/cancel", body: req.to_json, headers: {"X-Api-Key" => @api_key}).response
       ZumataV3::ErrorClassifier.handle(res.code.to_i, res.body) unless [200,201].include?(res.code.to_i)
-      ZumataV3::GenericResponse.new(context: {reference_id: reference_id}, code: res.code.to_i, body: res.body)
+      ZumataV3::GenericResponse.new(context: {reference: reference}, code: res.code.to_i, body: res.body)
     end
 
   end

@@ -72,7 +72,7 @@ describe "ZumataV3::HotelClient endpoints" do
 
   end
 
-  describe "pre_book" do
+  describe "prebook" do
 
     def sample_search destination_id="f75a8cff-c26e-4603-7b45-1b0f8a5aa100"
       return {
@@ -116,8 +116,8 @@ describe "ZumataV3::HotelClient endpoints" do
       }
     end
 
-    it 'pre-books a package returned from the search request and return booking information' , :vcr => { :cassette_name => "#{$vcr_recorded_check_in_date}/pre_book_done", :record => :new_episodes } do
-      results = @client.pre_book sample_search, sample_package, sample_config
+    it 'pre-books a package returned from the search request and return booking information' , :vcr => { :cassette_name => "#{$vcr_recorded_check_in_date}/prebook_done", :record => :new_episodes } do
+      results = @client.prebook sample_search, sample_package, sample_config
     	data = JSON.parse(results.body)
       expect(data).to_not be(nil)
       expect(data["pre_book_id"]).to_not be(nil)
@@ -125,28 +125,28 @@ describe "ZumataV3::HotelClient endpoints" do
       expect(data["cancellation_policy"]["cancellation_policies"]).to_not be(nil)
     end
 
-    it 'raises an error if invalid inputs are provided', :vcr => { :cassette_name => "#{$vcr_recorded_check_in_date}/pre_book_fail", :record => :new_episodes } do
+    it 'raises an error if invalid inputs are provided', :vcr => { :cassette_name => "#{$vcr_recorded_check_in_date}/prebook_fail", :record => :new_episodes } do
       expect{
-        @client.pre_book sample_search("invalid_destination_id"), sample_package, sample_config
+        @client.prebook sample_search("invalid_destination_id"), sample_package, sample_config
       }.to raise_error(ZumataV3::BadRequestError)
     end
 
   end
 
-  describe "get_pre_book_by_id" do
+  describe "get_prebook" do
 
-    it 'returns a successful response if the query is valid', :vcr => { :cassette_name => "#{$vcr_recorded_check_in_date}/get_pre_book_by_id_done", :record => :new_episodes } do
+    it 'returns a successful response if the query is valid', :vcr => { :cassette_name => "#{$vcr_recorded_check_in_date}/get_prebook_done", :record => :new_episodes } do
       pre_book_id = "2b076a9d-9051-4ab5-57f7-59aaf9d8ce2d"
-      results = @client.get_pre_book_by_id pre_book_id
+      results = @client.get_prebook pre_book_id
     	data = JSON.parse(results.body)
       expect(data).to_not be(nil)
       expect(data["pre_book_id"]).to_not be(nil)
     end
 
-    it 'raises an error if pre-book id provided is invalid', :vcr => { :cassette_name => "#{$vcr_recorded_check_in_date}/get_pre_book_by_id_fail", :record => :new_episodes } do
+    it 'raises an error if pre-book id provided is invalid', :vcr => { :cassette_name => "#{$vcr_recorded_check_in_date}/get_prebook_fail", :record => :new_episodes } do
       pre_book_id = "invalid"
       expect{
-        results = @client.get_pre_book_by_id pre_book_id
+        results = @client.get_prebook pre_book_id
       }.to raise_error(ZumataV3::NotFoundError)
     end
 
@@ -181,45 +181,45 @@ describe "ZumataV3::HotelClient endpoints" do
 
   end
 
-  describe "get_book_by_reference_id" do
+  describe "get_book" do
 
-    it 'returns a successful response if the reference id is valid', :vcr => { :cassette_name => "#{$vcr_recorded_check_in_date}/get_book_by_reference_id_done", :record => :new_episodes } do
-      reference_id = "cc7aa5e9-4cf4-436d-619d-29b7fd992c27"
-      results = @client.get_book_by_reference_id reference_id
+    it 'returns a successful response if the reference id is valid', :vcr => { :cassette_name => "#{$vcr_recorded_check_in_date}/get_book_done", :record => :new_episodes } do
+      reference = "cc7aa5e9-4cf4-436d-619d-29b7fd992c27"
+      results = @client.get_book reference
     	data = JSON.parse(results.body)
       expect(data).to_not be(nil)
       expect(data["client_reference"]).not_to eq(nil)
     end
 
-    it 'raises an error if reference id provided is invalid', :vcr => { :cassette_name => "#{$vcr_recorded_check_in_date}/get_book_by_reference_id_fail", :record => :new_episodes } do
-      reference_id = "invalid"
+    it 'raises an error if reference id provided is invalid', :vcr => { :cassette_name => "#{$vcr_recorded_check_in_date}/get_book_fail", :record => :new_episodes } do
+      reference = "invalid"
       expect{
-        results = @client.get_book_by_reference_id reference_id
+        results = @client.get_book reference
       }.to raise_error(ZumataV3::NotFoundError)
     end
 
   end
 
-  describe "cancel_by_reference_id" do
+  describe "cancel" do
 
-    it "returns a successful response if the reference id is valid", :vcr => { :cassette_name => "#{$vcr_recorded_check_in_date}/cancel_by_reference_id_done", :record => :new_episodes } do
-      reference_id = "cc7aa5e9-4cf4-436d-619d-29b7fd992c27"
-      results = @client.cancel_by_reference_id reference_id
+    it "returns a successful response if the reference id is valid", :vcr => { :cassette_name => "#{$vcr_recorded_check_in_date}/cancel_done", :record => :new_episodes } do
+      reference = "cc7aa5e9-4cf4-436d-619d-29b7fd992c27"
+      results = @client.cancel reference
       data = JSON.parse(results.body)
       expect(data).to_not be(nil)
     end
 
-    it "raise an error if reference id provided is already cancelled", :vcr => { :cassette_name => "#{$vcr_recorded_check_in_date}/cancel_by_reference_id_cancelled", :record => :new_episodes } do
-      reference_id = "cc7aa5e9-4cf4-436d-619d-29b7fd992c27"
+    it "raise an error if reference id provided is already cancelled", :vcr => { :cassette_name => "#{$vcr_recorded_check_in_date}/cancel_cancelled", :record => :new_episodes } do
+      reference = "cc7aa5e9-4cf4-436d-619d-29b7fd992c27"
       expect{
-        results = @client.cancel_by_reference_id reference_id
+        results = @client.cancel reference
       }.to raise_error(ZumataV3::UnprocessableEntityError)
     end
 
-    it "raise an error if reference id provided is invalid", :vcr => { :cassette_name => "#{$vcr_recorded_check_in_date}/cancel_by_reference_id_fail", :record => :new_episodes } do
-      reference_id = "invalid"
+    it "raise an error if reference id provided is invalid", :vcr => { :cassette_name => "#{$vcr_recorded_check_in_date}/cancel_fail", :record => :new_episodes } do
+      reference = "invalid"
       expect{
-        results = @client.cancel_by_reference_id reference_id
+        results = @client.cancel reference
       }.to raise_error(ZumataV3::NotFoundError)
     end
 
