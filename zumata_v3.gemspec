@@ -6,8 +6,8 @@ require 'zumata_v3/version'
 Gem::Specification.new do |spec|
   spec.name          = "zumata_v3"
   spec.version       = ZumataV3::VERSION
-  spec.authors       = ["Jonathan Gomez"]
-  spec.email         = ["jonathan.gomez@zumata.com"]
+  spec.authors       = ["Jonathan Gomez", "Martin Koh"]
+  spec.email         = ["enquiry@zumata.com"]
   spec.summary       = %q{Client for the Zumata API 3.0}
   spec.description   = %q{Power a hotel website - search hotels, create and manage bookings.}
   spec.homepage      = "https://github.com/Zumata/v3-ruby-client"
