@@ -1,13 +1,19 @@
 # Zumata
 
 For interaction with the Zumata API 3.0
-[insert docs link]
+[Documentation](http://docs.api-v3.zumata.com)
 
-## Configuration
+### Installation
+`gem install zumata_v3`
+
+### Configuration
 ```
-Zumata.configure do |config|
-  config.api_url = "http://INSERT_API_URL"
-  config.api_key = "YOUR_SECRET_API_KEY"
+API_KEY = "YOUR API KEY"
+API_URL = "https://test.api-v3.zumata.com
+
+ZumataV3.configure do |config|
+  config.api_url = API_URL
+  config.api_key = API_KEY
 end
 ```
 
