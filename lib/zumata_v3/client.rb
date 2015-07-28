@@ -74,7 +74,7 @@ module ZumataV3
     end
 
     # GET /book/status
-    def get_book reference, opts={}
+    def booking_status reference, opts={}
       headers = init_headers opts
       res = self.class.get("#{@api_url}/book/status/#{reference}", headers: headers).response
       ZumataV3::ErrorClassifier.handle(res.code.to_i, res.body) unless [200,201].include?(res.code.to_i)

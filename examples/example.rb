@@ -94,7 +94,7 @@ result = @client.book_by_credit guest, pre_book_id, {affiliate_key: "testing"}
 output = JSON.parse(result.body)
 reference = output["reference"]
 
-result = @client.get_book reference
+result = @client.booking_status reference
 output = JSON.parse(result.body)
 
 puts reference
@@ -106,7 +106,7 @@ puts reference
 
 status = "IP"
 while status == "IP"
-  result = @client.get_book reference
+  result = @client.booking_status reference
   output = JSON.parse(result.body)
   status = output["status"]
   puts output["status"]

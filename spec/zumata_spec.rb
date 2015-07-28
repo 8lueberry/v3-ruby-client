@@ -181,11 +181,11 @@ describe "ZumataV3::HotelClient endpoints" do
 
   end
 
-  describe "get_book" do
+  describe "booking_status" do
 
     it 'returns a successful response if the reference id is valid', :vcr => { :cassette_name => "#{$vcr_recorded_check_in_date}/get_book_done", :record => :new_episodes } do
       reference = "cc7aa5e9-4cf4-436d-619d-29b7fd992c27"
-      results = @client.get_book reference
+      results = @client.booking_status reference
     	data = JSON.parse(results.body)
       expect(data).to_not be(nil)
       expect(data["client_reference"]).not_to eq(nil)
@@ -194,7 +194,7 @@ describe "ZumataV3::HotelClient endpoints" do
     it 'raises an error if reference id provided is invalid', :vcr => { :cassette_name => "#{$vcr_recorded_check_in_date}/get_book_fail", :record => :new_episodes } do
       reference = "invalid"
       expect{
-        results = @client.get_book reference
+        results = @client.booking_status reference
       }.to raise_error(ZumataV3::NotFoundError)
     end
 
