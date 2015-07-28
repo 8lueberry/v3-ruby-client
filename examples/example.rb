@@ -1,7 +1,7 @@
 require 'zumata_v3'
 
 API_KEY = "YOUR API KEY"
-API_URL = "https://api.zumata.com"
+API_URL = "https://test.api-v3.zumata.com"
 
 #####################
 # Initialize Client
