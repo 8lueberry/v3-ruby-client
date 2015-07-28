@@ -36,7 +36,7 @@ module ZumataV3
     end
 
     # POST /pre_book
-    def prebook search, package, config, opts={}
+    def pre_book search, package, config, opts={}
 
       req = { search: search,
             package: package,
@@ -49,7 +49,7 @@ module ZumataV3
     end
 
     # GET /pre_book
-    def get_prebook pre_book_id, opts={}
+    def pre_book_details pre_book_id, opts={}
       headers = init_headers opts
       res = self.class.get("#{@api_url}/pre_book/#{pre_book_id}", headers: headers).response
       ZumataV3::ErrorClassifier.handle(res.code.to_i, res.body) unless [200,201].include?(res.code.to_i)

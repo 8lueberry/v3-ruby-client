@@ -72,7 +72,7 @@ describe "ZumataV3::HotelClient endpoints" do
 
   end
 
-  describe "prebook" do
+  describe "pre_book" do
 
     def sample_search destination_id="f75a8cff-c26e-4603-7b45-1b0f8a5aa100"
       return {
@@ -117,7 +117,7 @@ describe "ZumataV3::HotelClient endpoints" do
     end
 
     it 'pre-books a package returned from the search request and return booking information' , :vcr => { :cassette_name => "#{$vcr_recorded_check_in_date}/prebook_done", :record => :new_episodes } do
-      results = @client.prebook sample_search, sample_package, sample_config
+      results = @client.pre_book sample_search, sample_package, sample_config
     	data = JSON.parse(results.body)
       expect(data).to_not be(nil)
       expect(data["pre_book_id"]).to_not be(nil)
@@ -127,17 +127,17 @@ describe "ZumataV3::HotelClient endpoints" do
 
     it 'raises an error if invalid inputs are provided', :vcr => { :cassette_name => "#{$vcr_recorded_check_in_date}/prebook_fail", :record => :new_episodes } do
       expect{
-        @client.prebook sample_search("invalid_destination_id"), sample_package, sample_config
+        @client.pre_book sample_search("invalid_destination_id"), sample_package, sample_config
       }.to raise_error(ZumataV3::BadRequestError)
     end
 
   end
 
-  describe "get_prebook" do
+  describe "pre_book_details" do
 
     it 'returns a successful response if the query is valid', :vcr => { :cassette_name => "#{$vcr_recorded_check_in_date}/get_prebook_done", :record => :new_episodes } do
       pre_book_id = "2b076a9d-9051-4ab5-57f7-59aaf9d8ce2d"
-      results = @client.get_prebook pre_book_id
+      results = @client.pre_book_details pre_book_id
     	data = JSON.parse(results.body)
       expect(data).to_not be(nil)
       expect(data["pre_book_id"]).to_not be(nil)
@@ -146,7 +146,7 @@ describe "ZumataV3::HotelClient endpoints" do
     it 'raises an error if pre-book id provided is invalid', :vcr => { :cassette_name => "#{$vcr_recorded_check_in_date}/get_prebook_fail", :record => :new_episodes } do
       pre_book_id = "invalid"
       expect{
-        results = @client.get_prebook pre_book_id
+        results = @client.pre_book_details pre_book_id
       }.to raise_error(ZumataV3::NotFoundError)
     end
 

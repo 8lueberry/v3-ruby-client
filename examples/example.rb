@@ -73,16 +73,16 @@ package = output["results"].first[1][0]
 # Pre-book a package
 #####################
 
-result = @client.prebook search, package, config
+result = @client.pre_book search, package, config
 output = JSON.parse(result.body)
 
 
 #####################
-# Get pre-book information by pre-book id
+# Get pre-book details by pre-book id
 #####################
 
 pre_book_id = output["pre_book_id"]
-result = @client.get_prebook pre_book_id
+result = @client.pre_book_details pre_book_id
 output = JSON.parse(result.body)
 
 
