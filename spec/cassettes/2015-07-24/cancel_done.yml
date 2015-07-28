@@ -1,0 +1,28 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://localhost:3001/cancel
+    body:
+      encoding: UTF-8
+      string: '{"reference":"cc7aa5e9-4cf4-436d-619d-29b7fd992c27"}'
+    headers:
+      X-Api-Key:
+      - XXXX1234
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 24 Jul 2015 07:00:59 GMT
+      Content-Length:
+      - '11'
+    body:
+      encoding: UTF-8
+      string: '{"ok":true}'
+    http_version: 
+  recorded_at: Fri, 24 Jul 2015 07:00:59 GMT
+recorded_with: VCR 2.9.3

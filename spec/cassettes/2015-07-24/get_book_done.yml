@@ -1,0 +1,30 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3001/book/status/cc7aa5e9-4cf4-436d-619d-29b7fd992c27
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      X-Api-Key:
+      - XXXX1234
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 24 Jul 2015 06:59:21 GMT
+      Content-Length:
+      - '897'
+    body:
+      encoding: UTF-8
+      string: '{"client_reference":"cc7aa5e9-4cf4-436d-619d-29b7fd992c27","status":"CX","requested_at":"2015-07-24T14:41:24.778304+08:00","package":{"hotel_id":"","room_details":{"description":"","food":0,"room_type":"","room_view":"","beds":null},"check_in_date":"2015-07-25T00:00:00Z","check_out_date":"2015-07-26T00:00:00Z","adult_count":2,"room_count":1},"guest":{"salutation":"Mr.","first_name":"Charlie","last_name":"Smith","email":"charlie.smith@zumata.com","city":"Montreal","state":"Quebec","street":"123
+        Outtamy way","postal_code":"H3H0H0","country":"Canada","nationality":"Canadian","contact_no":"+1
+        514 555-1234","remarks":"3 carpets please"},"pricing":{"zumata":{"currency":"USD","value":72},"client":{"currency":"","value":0}},"cancellation_details":{"status":"C","cancelled_at":"2015-07-24T14:55:28.450709+08:00","api_penalty":{"currency":"","value":0},"client_penalty":{"currency":"","value":0}}}'
+    http_version: 
+  recorded_at: Fri, 24 Jul 2015 06:59:21 GMT
+recorded_with: VCR 2.9.3
