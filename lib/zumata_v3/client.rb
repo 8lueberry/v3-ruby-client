@@ -1,6 +1,5 @@
 require 'httparty'
 require 'time'
-require 'awesome_print'
 require 'json'
 
 module ZumataV3
