@@ -1,6 +1,5 @@
 require 'httparty'
 require 'time'
-require 'awesome_print'
 require 'json'
 
 module ZumataV3
@@ -101,6 +100,7 @@ module ZumataV3
       if opts[:headers] != nil && opts[:headers].class == Hash
         headers = headers.merge(opts[:headers])
       end
+      headers
     end
 
   end
