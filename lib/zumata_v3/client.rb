@@ -100,7 +100,7 @@ module ZumataV3
       if opts[:headers] != nil && opts[:headers].class == Hash
         headers = headers.merge(opts[:headers])
       end
-      return headers
+      headers
     end
 
   end
